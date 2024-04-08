@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       docker_image:
-        description: 'Select the Docker image to pull from [nginx, postgres, warp, openjdk, golang]'
+        description: 'Select the Docker image to pull from [nginx, postgres, python, openjdk, golang]'
         required: true
         default: 'nginx'
-        options: ['nginx', 'postgres', 'warp', 'openjdk', 'golang']
+        options: ['nginx', 'postgres', 'python', 'openjdk', 'golang']
 
 jobs:
   build:
@@ -26,8 +26,8 @@ jobs:
               postgres)
                   echo "::set-output name=docker_image::postgres"
                   ;;
-              warp)
-                  echo "::set-output name=docker_image::warp"
+              python)
+                  echo "::set-output name=docker_image::python"
                   ;;
               openjdk)
                   echo "::set-output name=docker_image::openjdk"
