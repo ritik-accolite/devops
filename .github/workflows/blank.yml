@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_image:
-        description: 'Select the Docker image to pull'
+        description: 'Select the Docker image to pull from [nginx, postgres, warp, openjdk, golang]'
         required: true
         default: 'nginx'
         options: ['nginx', 'postgres', 'warp', 'openjdk', 'golang']
