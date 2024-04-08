@@ -1,0 +1,48 @@
+name: Choose Docker Image Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_image:
+        description: 'Select the Docker image to pull'
+        required: true
+        default: 'nginx'
+        options: ['nginx', 'postgres', 'warp', 'openjdk', 'golang']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Select Docker image
+        id: select_docker
+        run: |
+          case "${{ github.event.inputs.docker_image }}" in
+              nginx)
+                  echo "::set-output name=docker_image::nginx"
+                  ;;
+              postgres)
+                  echo "::set-output name=docker_image::postgres"
+                  ;;
+              warp)
+                  echo "::set-output name=docker_image::warp"
+                  ;;
+              openjdk)
+                  echo "::set-output name=docker_image::openjdk"
+                  ;;
+              golang)
+                  echo "::set-output name=docker_image::golang"
+                  ;;
+              *)
+                  echo "Invalid option selected: ${{ github.event.inputs.docker_image }}"
+                  exit 1
+                  ;;
+          esac
+
+      - name: Pull Docker image
+        run: docker pull ${{ steps.select_docker.outputs.docker_image }}
+
+      - name: Run Docker container
+        run: docker run -d ${{ steps.select_docker.outputs.docker_image }}
